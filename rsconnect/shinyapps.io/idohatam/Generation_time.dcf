@@ -1,0 +1,13 @@
+name: Generation_time
+title: Generation_time
+username:
+account: idohatam
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4609327
+bundleId: 5010181
+url: https://idohatam.shinyapps.io/Generation_time/
+when: 1631057979.91912
+lastSyncTime: 1631057979.91912
+asMultiple: FALSE
+asStatic: FALSE
