@@ -9,12 +9,12 @@ gnt3 <- function(g = sample(seq(20,1500, by=10),1),
                  b = sample(seq(100,10000, by = 10),1)){
     #vector for generation time
     t <- (2:16)*g
-    #vector for cell numlog phase
+    #vector for cell num log phase
     cl <- rep(0, 15)
     
     cl_lag <- rep(0,100)
     
-    #time lag
+    #time lag phase
     
     t_lag <- seq(0,t[1], along.with = cl_lag)
     
@@ -116,19 +116,19 @@ ui <- fluidPage(
         sidebarPanel(numericInput(inputId = "gtime", label = 
                                       "Enter your calculated 
                  generation time(min)", value = NA),
-                     textOutput("calcG"),
+                     htmlOutput("calcG"),
                      numericInput(inputId = "B", 
                                   label ="Calculate final cell number", 
                                   value = NA),
-                     textOutput("cg"),
-                     textOutput("finc")),
+                     htmlOutput("cg"),
+                     htmlOutput("finc")),
         mainPanel(
             #h1("Growth curve", align = "center"),
             shinycssloaders::withSpinner(plotlyOutput("gcurve"),
                                          size = 2, type = 6)
         )))
 
-# Define server logic required to draw a histogram
+
 server <- function(input, output, session) {
     a <- gnt3()
     clc <- c(sample(seq(60,1500,by = 50), size = 1), 
@@ -142,34 +142,34 @@ server <- function(input, output, session) {
     
     output$calcG <- renderText({
         if(is.na(input$gtime)){
-            "Please enter your calculated generation time \n"    
+            paste0("<b>Please enter your calculated generation time</b>")    
         } else {
             if(input$gtime < a$G*1.1 & input$gtime > a$G*0.9){
-                print("Your generation time is correct")
+                paste0("<b>Your generation time is correct</b>")
             } else{
-                print("Your generation time is not within 10% of the correct generation time")
+                paste0("<b>Your generation time is not within 10% of the correct generation time</b>")
             }
         }
         
     })
     
     output$cg <- renderText({
-        paste("Use" , clc[1],"minutes as the time interval and", clc[2], 
+        paste("<b>Use" , clc[1],"minutes as the time interval and", clc[2], 
               "as the initial cell number to calculate final cell number and 
-          enter it to the box above.", sep=" ")
+          enter it to the box above.</b>", sep=" ")
         
     })
     
     output$finc <- renderText({
         
         if(is.na(input$B)){
-            "Don't forget to calculate your generation time first"
+            paste0("<b>Don't forget to calculate your generation time first</b>")
         } else{
             if(input$B < (clc[2]*2^(clc[1]/input$gtime))*1.1 
                & input$B > (clc[2]*2^(clc[1]/input$gtime))*0.9){
-                "Your calculated final cell number is correct"
+                paste0("<b>Your calculated final cell number is correct</b>")
             } else {
-                "Your calculated final cell number is incorrect"
+                paste0("<b>Your calculated final cell number is incorrect</b>")
             }
         }
         
